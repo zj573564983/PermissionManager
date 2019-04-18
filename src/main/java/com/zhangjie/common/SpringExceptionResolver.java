@@ -1,5 +1,6 @@
 package com.zhangjie.common;
 
+import com.zhangjie.exception.ParamException;
 import com.zhangjie.exception.PermissionException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.servlet.HandlerExceptionResolver;
@@ -23,11 +24,11 @@ public class SpringExceptionResolver implements HandlerExceptionResolver {
         //.json、.page
         //要求项目中所有请求json数据，都使用.json结尾
         if (url.endsWith(".json")) {
-            if (e instanceof PermissionException) {
+            if (e instanceof PermissionException|| e instanceof ParamException) {
                 JsonData result = JsonData.fail(e.getMessage());
                 mv = new ModelAndView("jsonView", result.toMap());
             } else {
-                log.error("unknow json exception,url:" + url, e);
+                log.error("unknow json exception,url:" + url , e);
                 JsonData result = JsonData.fail(defaultMsg);
                 mv = new ModelAndView("jsonView", result.toMap());
             }
@@ -40,6 +41,6 @@ public class SpringExceptionResolver implements HandlerExceptionResolver {
             JsonData result = JsonData.fail(defaultMsg);
             mv = new ModelAndView("jsonView", result.toMap());
         }
-        return null;
+        return mv;
     }
 }

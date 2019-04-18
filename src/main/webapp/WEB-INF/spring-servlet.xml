@@ -8,14 +8,25 @@
     <context:annotation-config/>
     <!-- 启动注解驱动的spring mvc功能 -->
     <mvc:annotation-driven/>
+    <mvc:interceptors>
+        <bean class="com.zhangjie.common.HttpInterceptor"/>
+    </mvc:interceptors>
 
     <!-- 启动包扫描功能 -->
     <context:component-scan base-package="com.zhangjie.controller"/>
     <context:component-scan base-package="com.zhangjie.service"/>
 
+    <mvc:resources location="/js/" mapping="/js/**"/>
+    <mvc:resources location="/css/" mapping="/css/**"/>
+    <mvc:resources location="/bootstrap3.3.5/" mapping="/bootstrap3.3.5/**"/>
+    <mvc:resources location="/assets/" mapping="/assets/**"/>
+    <mvc:resources location="/ztree/" mapping="/ztree/**"/>
+
     <!--<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping"/>-->
 
     <bean class="com.zhangjie.common.SpringExceptionResolver"/>
+    <bean class="com.zhangjie.common.ApplicationContextHelper" lazy-init="false"/>
+
     <bean class="org.springframework.web.servlet.view.BeanNameViewResolver"/>
     <bean id="jsonView" class="org.springframework.web.servlet.view.json.MappingJackson2JsonView"/>
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
